@@ -1,18 +1,26 @@
-public class MenuItem {
-    private String name;
+public class MenuItem extends Product {
     private double price;
 
     public MenuItem(String name, double price) {
-        this.name = name;
+        super(name);
         this.price = price;
     }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public double getPrice() {
+        return price;
+    }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
     public String toString() {
-        return name + " - $" + price;
+        return getName() + " - $" + price;
+    }
+
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) return false;
+        MenuItem menuItem = (MenuItem) obj;
+        return Double.compare(menuItem.price, price) == 0;
+    }
+
+    public int hashCode() {
+        return super.hashCode() + Double.hashCode(price);
     }
 }
