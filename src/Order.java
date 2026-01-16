@@ -1,36 +1,45 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class Order extends Product {
     private int orderId;
-    private MenuItem item;
-    private int quantity;
+    private List<MenuItem> items;
 
-    public Order(int orderId, MenuItem item, int quantity) {
-        super(item.getName());
-        if (quantity <= 0) {
-            throw new IllegalArgumentException("квантити должно быть натуральным числом");
-        }
+    public Order(int orderId) {
+        super("Order #" + orderId);
         this.orderId = orderId;
-        this.item = item;
-        this.quantity = quantity;
+        this.items = new ArrayList<>();
     }
 
+    public void addItem(MenuItem item) {
+        this.items.add(item);
+    }
+
+    @Override
     public double getPrice() {
-        return item.getPrice() * quantity;
+        double sum = 0;
+        for (MenuItem item : items) {
+            sum += item.getPrice();
+        }
+        return sum;
     }
 
+    @Override
     public String toString() {
-        return "Order #" + orderId +
-                ", Item: " + item.getName() +
-                ", Quantity: " + quantity +
-                ", Total: $" + getPrice();
+        return "Order #" + orderId + ", Items: " + items.size() + ", Total Price: $" + getPrice();
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!super.equals(obj)) return false;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         Order order = (Order) obj;
-        return orderId == order.orderId && item.equals(order.item) && quantity == order.quantity;
+        return orderId == order.orderId && Objects.equals(items, order.items);
     }
 
+    @Override
     public int hashCode() {
-        return super.hashCode() + Integer.hashCode(orderId) + item.hashCode() + Integer.hashCode(quantity);
+        return Objects.hash(orderId, items);
     }
 }
