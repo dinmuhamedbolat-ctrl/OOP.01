@@ -26,6 +26,7 @@ public class Main {
             System.out.println(product);
         }
 
-        System.out.println("Заказы одиннаковы?:" + order1.equals(order2));
+        System.out.println("Заказы одиннаковы?:" +
+                order1.equals(order2));
     }
 }
