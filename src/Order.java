@@ -16,7 +16,6 @@ public class Order extends Product {
         this.items.add(item);
     }
 
-    @Override
     public double getPrice() {
         double sum = 0;
         for (MenuItem item : items) {
@@ -24,13 +23,10 @@ public class Order extends Product {
         }
         return sum;
     }
-
-    @Override
     public String toString() {
         return "Order #" + orderId + ", Items: " + items.size() + ", Total Price: $" + getPrice();
     }
 
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
@@ -38,7 +34,6 @@ public class Order extends Product {
         return orderId == order.orderId && Objects.equals(items, order.items);
     }
 
-    @Override
     public int hashCode() {
         return Objects.hash(orderId, items);
     }
