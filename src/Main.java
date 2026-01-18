@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -11,7 +13,7 @@ public class Main {
         Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
         int totalSum = 0;
-        String orderDetails = "";
+        HashMap<String, Integer> orderMap = new HashMap<>();
 
         while (true) {
             System.out.println("\n--- МЕНЮ ---");
@@ -27,7 +29,15 @@ public class Main {
 
             if (choice == 0) {
                 System.out.println("\nВаш чек");
-                System.out.println( (orderDetails.isEmpty() ? " ": orderDetails));
+
+                if (orderMap.isEmpty()) {
+                    System.out.println(" ");
+                } else {
+                    for (Map.Entry<String, Integer> entry : orderMap.entrySet()) {
+                        System.out.println(entry.getKey() + " - " + entry.getValue() + " шт.");
+                    }
+                }
+
                 System.out.println("Общая сумма  " + totalSum + "$");
                 connection.close();
                 break;
@@ -41,7 +51,7 @@ public class Main {
                     int price = rs.getInt("price");
 
                     totalSum += price;
-                    orderDetails += name + " ";
+                    orderMap.put(name, orderMap.getOrDefault(name, 0) + 1);
 
                     System.out.println(name + " добавлен. Текущая сумма: " + totalSum + "$");
                 } else {
